@@ -335,35 +335,15 @@ class StreamingAgent:
                 if self.quote_ready ==True:
                                 self.process_queue()
                                 self.quote_ready=False
-                if current_time.minute != self.last_execution_time.minute:
-                        with self.lock:
-                            periodic_tasks_logger.info("Consolidation started")
-                            consolidation.consolidate_1mls_to_tf('1min')
-                            self.last_execution_time = datetime.now()
-                            c_time_lapse_sec=self.last_execution_time.second-current_time.second
-                            c_time_lapse_min=self.last_execution_time.minute-current_time.minute
-                            periodic_tasks_logger.info("Consolidation finished")
-                            periodic_tasks_logger.info(f"Consolidation spent time : {c_time_lapse_min} minutes and {c_time_lapse_sec} seconds")
-                            current_time_signal=datetime.now()
-
-                            last_signals_calculaion_time= datetime.now()
-                            c_time_lapse_sec=last_signals_calculaion_time.second-current_time_signal.second
-                            c_time_lapse_min=last_signals_calculaion_time.minute-current_time_signal.minute
-                            periodic_tasks_logger.info(f"Calculating signal spent time : {c_time_lapse_min} minutes and {c_time_lapse_sec} seconds")
 
                 if current_time.minute % 30 == 0:
                     with self.lock:
-                        df_1min=consolidation.return_df('1min')
                         df_1mls=consolidation.return_df('1mls')
                         if  df_1mls is not None  and not df_1mls.empty:
                             if len(df_1mls)>=2000:
 
                                 consolidation.reset_df('1mls')
                                 periodic_tasks_logger.info("1mls data reset")
-                        if  df_1min is not None  and not df_1min.empty:
-                            if len(df_1min)>=10000:
-                                consolidation.reset_df('1min')
-                                periodic_tasks_logger.info("1min data reset")
 
 
         periodic_tasks_logger.info("Cannot execute periodic tasks because pull data event is not set")
