@@ -22,16 +22,9 @@ from time import sleep
 # Financial data and trading
 import yfinance as yf
 from yflive import QuoteStreamer
-import ta
-from oandapyV20 import API
-from oandapyV20.exceptions import V20Error
-from oandapyV20.endpoints.orders import OrderCreate
-from oandapyV20.endpoints.accounts import AccountDetails
 
 
 
-# Database
-import sqlite3
 
 # Multithreading
 import threading
@@ -40,23 +33,25 @@ import logging
 from multiprocessing import Process, Event
 
 # Utilities
-import hashlib
 import os
 import json
 
 # Cloud services
 import boto3
 
-# Application-specific
-from flask import current_app
 
+#env
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 class ConsolidationAgent:
     def __init__(self,market):
 
         ##bucket setup:
-        self.AWS_ACCESS_KEY_ID = 'AWS_ACCESS_KEY_ID'
-        self.AWS_SECRET_ACCESS_KEY = 'AWS_ACCESS_KEY_ID'
-        self.BUCKET_NAME = 'BUCKET_NAME'
+        self.AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+        self.AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+        self.BUCKET_NAME = os.getenv('BUCKET_NAME')
         self.s3_client = boto3.resource(
                             's3',
                             aws_access_key_id=self.AWS_ACCESS_KEY_ID,
@@ -166,8 +161,6 @@ class ConsolidationAgent:
                 ##df setup
                 filename=f'{self.market}_{timeframe}_{today_date}_{current_hour}_{current_minute}.csv'
                 df=getattr(self,f'df_{timeframe}')
-                save_treshold=getattr(self,f'save_treshold_{timeframe}')
-                #df=df.tail(save_treshold)
 
                 csv_buffer = StringIO()
                 df.to_csv(csv_buffer, index=False)

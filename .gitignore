@@ -2,7 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+# Environment files
+.env
+# Virtual environment folder
+datastreamervenv/
 # C extensions
 *.so
 
