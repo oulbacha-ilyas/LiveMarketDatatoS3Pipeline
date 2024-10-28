@@ -1,0 +1,11 @@
+plotly
+oandapyV20
+ta
+yfinance
+boto3
+yflive
+flask_ngrok
+scipy
+matplotlib
+IPython
+protobuf==3.20.0

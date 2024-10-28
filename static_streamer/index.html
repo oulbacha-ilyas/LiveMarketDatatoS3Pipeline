@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming Agent Control</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Streaming Agent Control Panel</h1>
+        <button id="start-streaming-btn">Start Streaming</button>
+        <button id="stop-streaming-btn">Stop Streaming</button>
+        <!-- Dropdown for selecting timeframe -->
+        <label for="timeframe-select">Select Timeframe:</label>
+        <select id="timeframe-select">
+            <option value="1min">1min</option>
+            <option value="1mls">1mls</option>
+        </select>
+        <button id="save-to-bucket-btn">Save to Bucket</button>
+        <button id="check-current-state-btn">Current State</button>
+        <button id="reset-df-btn">Reset DataFrame</button>
+
+
+    </div>
+
+<div class="consolidation-container">
+<label for="market-select">Select market:</label>
+<select id="market-select">
+    <option value="forex">Forex</option>
+    <option value="crypto">Crypto</option>
+    <!-- Add more pairs as needed -->
+</select>
+<button id="reinitialize-consolidation-btn">Reinitialize Market</button>
+</div>
+
+<div id="response-message"></div>
+<div>
+<label>Cuurrent df temp </label>
+<div id="dataframe-container"></div>
+</div>
+    <script>
+    document.getElementById('start-streaming-btn').addEventListener('click', function() {
+        fetch('/start_streaming', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response-message').innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('response-message').innerText = 'An error occurred.';
+            });
+    });
+
+    document.getElementById('stop-streaming-btn').addEventListener('click', function() {
+        fetch('/stop_streaming', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response-message').innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('response-message').innerText = 'An error occurred.';
+            });
+    });
+
+    document.getElementById('save-to-bucket-btn').addEventListener('click', function() {
+        // You need to specify the timeframe, or modify the backend to handle this
+        const timeframe = document.getElementById('timeframe-select').value;
+        fetch('/save_to_bucket', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ timeframe: timeframe })
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response-message').innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('response-message').innerText = 'An error occurred.';
+            });
+    });
+
+ document.getElementById('check-current-state-btn').addEventListener('click', function() {
+     // You need to specify the timeframe, or modify the backend to handle this
+     const timeframe = '1min';  // Replace with the actual timeframe
+     fetch('/dfs_current_state', {
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({ timeframe: timeframe })
+     })
+         .then(response => response.json())
+         .then(data => {
+             document.getElementById('response-message').innerText = data.message;
+         })
+         .catch(error => {
+             console.error('Error:', error);
+             document.getElementById('response-message').innerText = 'An error occurred.';
+         });
+ });
+ document.getElementById('reinitialize-consolidation-btn').addEventListener('click', function() {
+     // You need to specify the timeframe, or modify the backend to handle this
+     const market = document.getElementById('market-select').value;
+     fetch('/reinitialize_consolidation', {
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({ market: market })
+     })
+         .then(response => response.json())
+         .then(data => {
+             document.getElementById('response-message').innerText = data.message;
+         })
+         .catch(error => {
+             console.error('Error:', error);
+             document.getElementById('response-message').innerText = 'An error occurred.';
+         });
+ });
+
+ document.getElementById('reset-df-btn').addEventListener('click', function() {
+        // You need to specify the timeframe, or modify the backend to handle this
+        const timeframe = document.getElementById('timeframe-select').value;
+        fetch('/reset_df', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ timeframe: timeframe })
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response-message').innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('response-message').innerText = 'An error occurred.';
+            });
+    });
+    // Your DataFrame in JSON format
+document.getElementById('fetch-button').addEventListener('click', function() {
+        fetch('/display_current_data', {
+            method: 'GET'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Ensure data is logged to check its structure
+            console.log(data);
+
+            // Parse the JSON string back into an object
+            const dfJson = JSON.parse(data);
+
+            // Generate the table HTML
+            const tableHtml = createTableFromJson(dfJson);
+
+            // Insert the table into the div
+            document.getElementById('dataframe-container').innerHTML = tableHtml;
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    });
+
+    function createTableFromJson(data) {
+        let table = '<table><thead><tr>';
+        for (let key in data[0]) {
+            table += `<th>${key}</th>`;
+        }
+        table += '</tr></thead><tbody>';
+        data.forEach(row => {
+            table += '<tr>';
+            for (let key in row) {
+                table += `<td>${row[key]}</td>`;
+            }
+            table += '</tr>';
+        });
+        table += '</tbody></table>';
+        return table;
+    }
+    </script>
+</body>
+</html>
