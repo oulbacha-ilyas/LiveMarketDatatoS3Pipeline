@@ -1,20 +1,48 @@
-# LiveMarketDatatoS3Pipline
-PROJECT NAME: AIM
-SCOPE : FINANCE,IT AND DATASCIENCE
-STATUS : ONGOING
-START DATE : 12/2021
-PHASES: MACHINE LEARNING MODELS DEVELOPEMENT IN GOOGLE COLLAB,TESTING STRATEGIES REAL LIVE TRADING ON OANA/YAHOO FINANCE,APP DEVELOPEMENT ON FLASK,APP DEPLOYEMENT TO WEB SERVER ?
-CURRENT PHASE: Python app to collect live market data and save it to an S3 bucket for future use and manipulation.
+## AIM: Automated Intelligence in Market Analysis
 
-DESCRIPTION: 
-This project is the juice of my all the knwoldedege and skills i've learned till now in both finance,management,IT and data science recently.
-The first idea was to use my data science skills in money industry and see how it works;the natural choice went then for using machine learning in trading.The first stages of research have been 
-developed in my dissertation project for about comparing machine learning models and conventional statistical models in predicting stock price value of the big 4: google,facebook,netflix and apple.
-My dissertation has been approved and passed with merit.I've then been invited and accepted to publish a scientific article of my dissertation project in IA Conference in london.I then started thingking
-about creating a more practical to clear strategy of trading using statistics.I've used machine learning to find the best strategy based on different criterias.The strategy has been test over for 
-1 year manually and the results have been trucked every 2 months.Then tested automatically using OANDA API AND YAHOO FINACE API.The strategy still profitabable the theorical data testing and live a
-automated trading.The drop of the profitability rate was mainly due to the data used for training aggregated by yahoo finance,and the one used in live trading is not agrregated;this discrpency of 
-data sources/aggregation methods,led to observe some rare signals timing differences between the data aggragated and the live data.Moreover,the technical issues of automated trading caused loss
-due to not executing some trades;app not staretd,network error...etc.
-I then developed the idea and started working on transforming all this in to web app in which I can both execute my already built strategy,and also build new ones.
-The real fun has just started...peace and love[to be continued 23/03/2024 10:54]
+### Scope
+**Domains:** Finance, IT, Data Science  
+**Status:** Ongoing  
+**Start Date:** December 2022  
+**Current Phase:** Python application to collect live market data and save it to AWS S3 for further analysis and strategy deployment.  
+
+### Phases Overview
+1. **Research & Model Development**  
+   - Comparative study of ML models and statistical approaches in stock price prediction (dissertation project, focused on tech giants: Google, Facebook, Netflix, and Apple).  
+   - Published a related article in the IA Conference, London.
+
+2. **Strategy Testing**  
+   - Developed a trading strategy, combining statistical and machine learning insights.  
+   - Conducted manual tests over 1 year and tracked results bi-monthly.
+
+3. **Automated Trading & Performance Analysis**  
+   - Tested the strategy with APIs from OANDA and Yahoo Finance.  
+   - Notable challenges included differences in data aggregation (Yahoo Finance data vs. real-time data) and technical issues like network instability.
+
+4. **Application Development and Deployment**  
+   - Built a Flask app for live streaming market data from the Yahoo Finance API, storing it in an AWS S3 bucket.  
+   - Backend AWS Lambda function for automated data aggregation across timeframes, saved to a second S3 bucket.
+
+### Current Objectives
+- **Strategy Deployment:** The app now supports live trading with custom-built strategies, which can be refined in a web-based interface.
+- **Next Steps:** Expand app functionality for testing and developing additional strategies.
+
+### Technical Setup
+**Backend:** Python, Flask, AWS Lambda, Yahoo Finance API  
+**Data Storage:** AWS S3 for raw and aggregated data  
+**Analysis & Aggregation:** Automated Lambda functions to create consistent timeframes  
+
+### Description
+This project represents the culmination of my skills and expertise in finance, IT, and data science. My journey began by exploring machine learning’s impact on finance, where I tested multiple models and strategies with real data. After obtaining promising results, I shifted toward automating the entire process, with the aim of creating a deployable, user-friendly web application for ongoing strategy testing and development.
+User Guide
+Follow these steps to set up and test the AIM Flask app on your local environment. For more detailed instructions, refer to the [Setup Guide](SETUP.md).
+
+### Basic Setup Instructions
+1. Clone the Repository
+2. Set Up AWS S3 Bucket Access
+3. Create a Virtual Environment
+4. Install Required Packages
+5. Run the Flask App Using Waitress
+6. Access the Control Panel
+7. Start Live Data Streaming
+8. Verify Data in S3
