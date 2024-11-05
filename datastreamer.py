@@ -60,7 +60,8 @@ class ConsolidationAgent:
         ##market and quotes
         self.market=market
         self.quotes_list={"crypto":["BTC-USD", "ETH-USD", "XRP-USD", "LTC-USD", "LTC-USD"],
-                           "forex":["EURUSD=X", "GBPUSD=X", "NZDUSD=X", "AUDUSD=X", "DX-Y.NYB"]}
+                           "forex":["EURUSD=X", "GBPUSD=X", "NZDUSD=X", "AUDUSD=X", "DX-Y.NYB"],
+                           "stock":["AAPL", "MSFT", "GOOGL", "AMZN", "META", "NVDA", "XOM", "CAT", "GE"]}
         self.market_quotes = self.quotes_list[self.market]
         self.data = []
 
@@ -477,6 +478,13 @@ def dfs_current_state():
     # Your logic here
     flask_logger.info("Received request to current state")
     return jsonify({'message': consolidation.dfs_current_state()})
+
+@app.route('/reinitialize_consolidation', methods=['POST'])
+def reinitialize_consolidation():
+    # Your logic here
+    flask_logger.info("Received request to reset df")
+    market = request.json.get('market')
+    return jsonify({'message': consolidation.reinitialize(market)})
 
 @app.route('/')
 def index():
