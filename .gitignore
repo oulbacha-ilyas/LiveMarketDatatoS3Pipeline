@@ -3,9 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 # Environment files
-*.env
-./.env
-/.env
+
 # Virtual environment folder
 datastreamervenv/
 # C extensions
